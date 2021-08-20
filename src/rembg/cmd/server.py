@@ -8,7 +8,8 @@ from urllib.request import urlopen
 from flask import Flask, request, send_file
 from waitress import serve
 
-from ..bg import remove
+#from ..bg import remove
+from rembg.bg import remove
 
 app = Flask(__name__)
 
@@ -18,6 +19,7 @@ def index():
     file_content = ""
 
     if request.method == "POST":
+        print(f"request.files={request.files}")
         if "file" not in request.files:
             return {"error": "missing post form param 'file'"}, 400
 
@@ -28,6 +30,7 @@ def index():
         if url is None:
             return {"error": "missing query param 'url'"}, 400
 
+        print(f"url={url}")
         file_content = urlopen(unquote_plus(url)).read()
 
     if file_content == "":
