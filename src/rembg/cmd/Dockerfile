@@ -7,6 +7,8 @@ RUN pip3 install -r /requirements.txt
 RUN python3 -c 'import pymatting_aot.cc'
 
 COPY server.py /server.py
-ENTRYPOINT ["python3", "/server.py"]
+COPY newrelic.ini /newrelic.ini
+ENV NEW_RELIC_CONFIG_FILE=/newrelic.ini
+ENTRYPOINT ["newrelic-admin", "run-program", "python3", "/server.py"]
 CMD []
 EXPOSE 5000
